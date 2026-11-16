@@ -1,19 +1,62 @@
-# CS 210 Portfolio Project Reflection
+# Corner Grocer — Item Frequency Analyzer
 
-## Summarize the project and what problem it was solving.
-This project is an item-tracking program for the Corner Grocer. The store provides a text file containing a list of items purchased throughout the day, and the program analyzes that data to show how frequently each item appears. The program allows the user to view the frequency of a specific item, display all items with their purchase counts, and display a histogram representation of those counts. This helps the store make decisions about organizing inventory and improving the customer shopping experience.
+**C++ · File I/O · Data aggregation · Command-line reports**  
+*SNHU CS 210 academic project*
 
-## What did you do particularly well?
-I did well designing the program so it cleanly separates responsibilities: reading and processing the input file, storing counts, and displaying results through a menu-driven interface. I also focused on producing clear output formatting for the user, including the histogram view. In addition, I used consistent naming and structured control flow so the program behavior is easy to follow.
+A grocery store can use purchase records to understand product demand. I developed this C++ application to read transaction data from a text file, count occurrences of each item, and display results through a simple console menu.
 
-## Where could you enhance your code? How would these improvements make your code more efficient, secure, and so on?
-One improvement would be stronger input validation and error handling for both menu selections and item searches (for example, handling empty input, unexpected characters, or missing files more gracefully). Another improvement would be making item matching case-insensitive and trimming whitespace to prevent mismatches due to formatting. I could also improve efficiency by using `unordered_map` for faster lookups and adding functions to avoid repeated code. These changes would make the program more reliable, easier to use, and more resilient to real-world messy data.
+## Verified example output
 
-## Which pieces of the code did you find most challenging to write, and how did you overcome this? What tools or resources are you adding to your support network?
-The most challenging part was building the file-processing logic in a way that correctly counts items while also working smoothly with the menu options and output requirements. I overcame this by breaking the problem into smaller steps: reading each line, updating a count structure, then writing small test runs to confirm each output format. I relied on debugging (printing intermediate results), course resources, and C++ reference documentation. Moving forward, I’m adding resources like cppreference, IDE debugging tools, and structured test cases to my support network.
+![Formatted representation of actual program output](assets/verified-output.svg)
 
-## What skills from this project will be particularly transferable to other projects or course work?
-This project strengthened skills that carry directly into other software projects: file I/O, data processing, using collections/maps, writing modular functions, and building interactive menu-based programs. It also reinforced problem decomposition, debugging strategies, and writing code that matches specific requirements—skills that apply to both future coursework and professional development.
+The sample above is **formatted from a real run** of the C++ code with the included dataset, not a screenshot of a terminal. Searching for `cranberries` returned **10 occurrences**. The program also produced a histogram and wrote its frequency backup to `frequency.dat`.
 
-## How did you make this program maintainable, readable, and adaptable?
-I kept the program maintainable by organizing code into functions with clear names and single responsibilities, and by using consistent formatting and comments where needed. The menu logic is centralized so updates to user options can be made in one place. The program is adaptable because the input data source can be changed easily (by swapping the file), and the counting/display logic can be extended without rewriting the entire structure.
+## Features
+
+- Search for an item's purchase frequency (case-insensitive).
+- List every unique item and its frequency.
+- Display a histogram using asterisks.
+- Automatically write a frequency backup file when the program starts.
+- Navigate using a four-option text menu.
+
+## Data flow
+
+```mermaid
+flowchart LR
+    A[Purchase records] --> B[Read file]
+    B --> C[Normalize names]
+    C --> D[Count in std::map]
+    D --> E[Reports and histogram]
+    D --> F[frequency.dat backup]
+```
+
+## Build and run
+
+Use a C++17-compatible compiler. These commands were checked with `g++` against the original repository source and dataset.
+
+```bash
+git clone https://github.com/Fernando-2/CS210-portfolio.git
+cd CS210-portfolio
+g++ -std=c++17 -Wall -Wextra -pedantic main.cpp GroceryTracker.cpp -o corner-grocer
+./corner-grocer
+```
+
+Keep `CS210_Project_Three_Input_File.txt` in the **current working directory**. On Windows with MinGW-w64, use `-o corner-grocer.exe` and run the resulting executable.
+
+Select **1** for an item lookup, **2** for all frequencies, **3** for a histogram, or **4** to exit.
+
+## Repository map
+
+| File | Purpose |
+| --- | --- |
+| [main.cpp](main.cpp) | Program entry point, menu, and input handling |
+| [GroceryTracker.h](GroceryTracker.h) | Tracker interface and frequency maps |
+| [GroceryTracker.cpp](GroceryTracker.cpp) | File loading, counting, reports, backup output |
+| [CS210_Project_Three_Input_File.txt](CS210_Project_Three_Input_File.txt) | Supplied purchase-record dataset |
+| [docs/reflection.md](docs/reflection.md) | Original course portfolio reflection |
+
+## What I learned
+
+I practiced parsing records, using Standard Library collections, organizing logic in a class, handling file operations, and presenting data in a readable format. Potential improvements include trimming whitespace and validating menu input more strictly.
+
+[GitHub profile](https://github.com/Fernando-2) · [Portfolio](https://frflux.com)
